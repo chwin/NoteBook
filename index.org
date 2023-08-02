@@ -17,6 +17,9 @@
 ** linux
 *** 文本编辑
 **** emacs
+***** emacs安装与配置
+    1. [[https://www.gnu.org/software/emacs/emacs.html][点击安装 emacs]]
+    2. 
 ***** Spacemacs
 ****** git 管理
 
@@ -65,13 +68,46 @@
     SPC p t # 打开项目管理页面
     SPC p f # 模糊匹配和查找项目中的文件
 
+***** 目录操作
 ***** emacs 常用命令
 
-    M-x # 输入命令
-    C-g # 取消正在编辑的命令
-    C-s # 查找字符串
-
+    M-x     # 输入命令
+    C-g     # 取消正在编辑的命令
+    C-s     # 查找字符串
+    C-r     # 光标上、中、下跳转
+    M-<     # 移动到文件头
+    M->     # 移动到文件尾
+    C-x C-j # 可以打开当前文件所在的目录
+复制： M-w 复制选中的区域。
+移除： C-w 移除选中的区域。
+再按 M-y ，就可以得到倒数第二次移除的内容，再按一次 M-y 即可得到倒数第三次移除的内容，以此类推。后面笔者会介绍插件 counsel 辅助这个过程。
 ***** 配置文件
+
+****** 配置生效
+
+    M-x eval-region # 运行选中的这部分代码
+    M-x eval-buffer # 执行当前 Buffer 的所有代码
+
+****** 最开始的配置
+
+    (setq confirm-kill-emacs #'yes-or-no-p)      ; 在关闭 Emacs 前询问是否确认关闭，防止误触
+    (electric-pair-mode t)                       ; 自动补全括号
+    (add-hook 'prog-mode-hook #'show-paren-mode) ; 编程模式下，光标在括号上时高亮另一个括号
+    (column-number-mode t)                       ; 在 Mode line 上显示列号
+    (global-auto-revert-mode t)                  ; 当另一程序修改了文件时，让 Emacs 及时刷新 Buffer
+    (delete-selection-mode t)                    ; 选中文本后输入文本会替换文本（更符合我们习惯了的其它编辑器的逻辑）
+    (setq inhibit-startup-message t)             ; 关闭启动 Emacs 时的欢迎界面
+    (setq make-backup-files nil)                 ; 关闭文件自动备份
+    (add-hook 'prog-mode-hook #'hs-minor-mode)   ; 编程模式下，可以折叠代码块
+    (global-display-line-numbers-mode 1)         ; 在 Window 显示行号
+    (tool-bar-mode -1)                           ; （熟练后可选）关闭 Tool bar
+    (when (display-graphic-p) (toggle-scroll-bar -1)) ; 图形界面时关闭滚动条
+
+    (savehist-mode 1)                            ; （可选）打开 Buffer 历史记录保存
+    (setq display-line-numbers-type 'relative)   ; （可选）显示相对行号
+    (add-to-list 'default-frame-alist '(width . 90))  ; （可选）设定启动图形界面时的初始 Frame 宽度（字符数）
+    (add-to-list 'default-frame-alist '(height . 55)) ; （可选）设定启动图形界面时的初始 Frame 高度（字符数）
+
 ****** 配置快捷键
 ***** 移动
 
@@ -105,9 +141,23 @@
     C-z    # 保留 Emacs
 
 ***** org-mode
+****** todo
 
-    C-b C-f   # 下一个标题
-    C-b C-b   # 上一个标题
+    C-c C-t 变换 TODO 的状态
+    C-c / t 以树的形式展示所有的 TODO
+    C-c C-c 改变 checkbox 状态
+    C-c, 设置优先级（方括号里的 ABC）
+    M-S-RET 插入同级 TODO 标签
+
+****** Tags
+
+    C-c C-q 为标题添加标签
+    C-c / m 生成带标签的树
+
+****** 标题
+
+    C-b C-f   # 下一个同级标题
+    C-b C-b   # 上一个同级标题
     M - Enter # 新建一个目录
     M - Enter # 新建一个目录
     C-c C-^   # 跳转到上级目录
@@ -115,7 +165,16 @@
     C-c C-p   # 移动到上一个标题
     C-c C-n   # 移动到下一个标题
 
-***** elisp语言
+********** org-roam
+********** 链接操作
+
+    C-c l          # 保存至 buffer 中，以便后续使用。但是在我的版本中提示没有这个快捷键
+    C-c C-l        # 光标处无连接时表示插入链接，要求输入链接内容，光标处有链接时表示修改链接
+    C-c C-o        # 光标在链接位置时，表示打开链接
+    C-c %	buffer   # 中记忆一个位置
+    C-c &	从 C-c % # 的记录中，逐一回溯
+
+********** elisp语言
 **** vim
 ***** 常用命令
 
@@ -127,8 +186,8 @@
     xp    # 交换两个字符位置
     ddp   # 交换行
     C-[   # 可以代替 esc
-    C + j # 加入新行
-    S + j # 合并行，同时可以清除空行
+    C-j   # 加入新行
+    S-j   # 合并行，同时可以清除空行
     C-w   # 插入模式中删除光标前的一个单词
     C-u   # 插入模式中从光标位置删除到行首
     3 C-r # 重做 3 次
@@ -560,7 +619,9 @@
     :sav! %<.bak    换一个后缀保存
 
 *** 终端
+**** oh-my-zsh
 **** Tmux
+*** shell
 ** git
 *** windows 安装
 **** 安装 TortoiseGit
@@ -570,7 +631,6 @@
     TortoiseGit 依赖于 msysGit，两个软件同要求同时安装，否则 TortoiseGit 不能正常运行
 
 **** 安装 SourceTree
-
 *** 配置
 
     连接 github
@@ -661,22 +721,5 @@
 The end
 *** git 流程
 
-** python
-** HTML
-** CSS
-** mysql
-* TODO [#A] test :tag1:tag2:chwin:
-DEADLINE: <2023-08-04 周五 07:45-07:45 .+1w -1d> SCHEDULED: <2023-08-04 周五 07:45-07:45 .+1w -1d>
-:PROPERTIES:
-:啊:        额
-:的:        额
-:LAST_REPEAT: [2023-07-28 周五 06:52]
-:END:
-
-按
-
-
-
-develop
-
-sldkjf
+* sdflj sldfjk asdjf sdkflj
+* chwin

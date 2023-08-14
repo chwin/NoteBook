@@ -1,8 +1,5 @@
 * TODO 待办事项 [2/4]
-"SPC f f"      文件查找
-"SPC p f"      项目内文件查找
-"SPC b b"      缓冲区（buffer）列表
-"SPC p p"      项目列表
+
     - [ ] 自动对齐注释
     - [ ] 快捷键映射命令
     - [ ] 学习配置文件
@@ -20,13 +17,77 @@
 ** 文本编辑
 *** emacs
 **** emacs安装与配置
-***** 安装
-
     1. [[https://www.gnu.org/software/emacs/emacs.html][点击安装 emacs]]
-    2. 配置系统home变量
+    2. 
+**** Spacemacs
+***** git 管理
 
-***** 配置
-****** 最开始的配置
+    Git 是一个当前非常流行的版本管理程序，Spacemacs 当然也不会少了 Git 的集成。在配置文件中加入 git 的 layer 即可。Spacemacs 内部集成的是一个叫 Magit 的扩展，所有跟 Git 相关的操作，都可以在 Spacemacs 中通过 Magit 一次性搞定。下面是一些常用的 Git 命令:
+    SPC g i   # 等价于命令 git init
+    SPC g s   # 等价于 git status
+    SPC g s   # 弹出层选中文件然后按 s, 等价于命令 git add 某个文件
+    SPC g S   # 等价于 git add .
+    SPC g c c # 等价于 git commit
+    SPC g C   # 等价于 git checkout XXX
+    SPC g l l # 等价于 git log
+    在 commit 时，我们输入完 commit message 之后，需要按 C-c C-c 来完成 commit 操作，也可以按 C-c C-k 来取消 commit。
+
+***** 基础操件
+
+    g  # 跳转
+    SPC SPC # 输入命令行
+    SPC b h # 打开主页面 buffer
+    SPC b b # 打开 buffer 例表
+    SPC b n # 打开下一个 buffer
+    SPC j j # 跳转到指定字符串
+    SPC q q # 退出 Emacs 提示保存
+    SPC q Q # 退出 Emacs 不保存
+
+***** 窗口操作
+
+    SPC w / # 垂直分割窗口
+    SPC w - # 水平分割窗口
+    SPC n   # 快速功换窗口（n代表任意数字）
+    SPC w j # 移动光标到下边的窗口
+    SPC w k # 移动光标到上边的窗口
+    SPC w h # 移动光标到左边的窗口
+    SPC w l # 移动光标到右边的窗口
+    SPC w d # 关闭当前窗口
+
+***** Buffer 管理
+
+    SPC TAB # 切换两个 buffer
+    SPC b b # 查看当前打开的 buffer
+    SPC b d # 关毕当前 buffer
+    SPC b n # 下一个 buffer
+    SPC b p # 上一个 buffer
+
+***** 项目管理
+
+    SPC p t # 打开项目管理页面
+    SPC p f # 模糊匹配和查找项目中的文件
+
+**** 目录操作
+**** emacs 常用命令
+
+    M-x     # 输入命令
+    C-g     # 取消正在编辑的命令
+    C-s     # 查找字符串
+    C-r     # 光标上、中、下跳转
+    M-<     # 移动到文件头
+    M->     # 移动到文件尾
+    C-x C-j # 可以打开当前文件所在的目录
+复制： M-w 复制选中的区域。
+移除： C-w 移除选中的区域。
+再按 M-y ，就可以得到倒数第二次移除的内容，再按一次 M-y 即可得到倒数第三次移除的内容，以此类推。后面笔者会介绍插件 counsel 辅助这个过程。
+**** 配置文件
+
+***** 配置生效
+
+    M-x eval-region # 运行选中的这部分代码
+    M-x eval-buffer # 执行当前 Buffer 的所有代码
+
+***** 最开始的配置
 
     (setq confirm-kill-emacs #'yes-or-no-p)      ; 在关闭 Emacs 前询问是否确认关闭，防止误触
     (electric-pair-mode t)                       ; 自动补全括号
@@ -46,105 +107,7 @@
     (add-to-list 'default-frame-alist '(width . 90))  ; （可选）设定启动图形界面时的初始 Frame 宽度（字符数）
     (add-to-list 'default-frame-alist '(height . 55)) ; （可选）设定启动图形界面时的初始 Frame 高度（字符数）
 
-****** 配置生效
-
-    M-x eval-region # 运行选中的这部分代码
-    M-x eval-buffer # 执行当前 Buffer 的所有代码
-
-****** 配置快捷键
-**** Spacemacs
-***** pacemacs 安装
-
-    brew install emacs     # MAC
-    // or
-    sudo apt install emacs # Linux
-    rm -rf ~/.emacs.d .emacs
-    git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d emacs
-
-***** 基础操件
-
-    M-m     # 打开命令窗口，空格键不能用时用这个命令
-    g       # 跳转
-    SPC SPC # 输入命令行
-    SPC b h # 打开主页面 buffer
-    SPC b b # 打开 buffer 例表
-    SPC b n # 打开下一个 buffer
-    SPC j j # 跳转到指定字符串
-    SPC q q # 退出 Emacs 提示保存
-    SPC q Q # 退出 Emacs 不保存
-    SPC c t # 注释
------
-五条短线或以上显示为分割线
-
-***** 表格操作
-
-    C-c 竖线	创建或转换成表格
-    C-c C-c	调整表格，不移动光标
-    TAB	移动到下一区域，必要时新建一行
-    S-TAB	移动到上一区域
-    RET	移动到下一行，必要时新建一行
-    M-RET	(Alt + 回车) 插入同级列表项
-    M-S-RET	(Alt + Shift + 回车) 插入有 checkbox 的同级列表项
-    M-left/right	(left: <- ; right: ->) 改变列表顶层级关系
-    M-up/down	上下移动列表项
-    C-c C-c	改变 checkbox 状态
-    C-c -	添加水平分割线
-    C-c RET	添加水平分割线并跳到下一行
-    C-c ^	根据当前列排序，可以选择排序方式
-
-***** 窗口操作
-
-    SPC w / # 垂直分割窗口
-    SPC w - # 水平分割窗口
-    SPC n   # 快速功换窗口（n代表任意数字）
-    SPC w j # 移动光标到下边的窗口
-    SPC w k # 移动光标到上边的窗口
-    SPC w h # 移动光标到左边的窗口
-    SPC w l # 移动光标到右边的窗口
-    SPC w d # 关闭当前窗口
-    M-0 # 跳转到项目管理窗口
-    M-1 # 跳转到第一个窗口
-
-***** Buffer 管理
-
-    SPC TAB # 切换两个 buffer
-    SPC b b # 查看当前打开的 buffer
-    SPC b d # 关毕当前 buffer
-    SPC b n # 下一个 buffer
-    SPC b p # 上一个 buffer
-
-***** Magit
-
-    Git 是一个当前非常流行的版本管理程序，Spacemacs 当然也不会少了 Git 的集成。在配置文件中加入 git 的 layer 即可。Spacemacs 内部集成的是一个叫 的扩展，所有跟 Git 相关的操作，都可以在 Spacemacs 中通过 Magit 一次性搞定。下面是一些常用的 Git 命令:
-    SPC g i   # 等价于命令 git init
-    SPC g s   # 等价于 git status
-    SPC g s   # 弹出层选中文件然后按 s, 等价于命令 git add 某个文件
-    SPC g S   # 等价于 git add .
-    SPC g c c # 等价于 git commit
-    SPC g C   # 等价于 git checkout XXX
-    SPC g l l # 等价于 git log
-    在 commit 时，我们输入完 commit message 之后，需要按 C-c C-c 来完成 commit 操作，也可以按 C-c C-k 来取消 commit。
-
-***** 项目管理
-
-    SPC p t # 打开项目管理页面
-    SPC p f # 模糊匹配和查找项目中的文件
-
-**** 目录操作
-**** emacs 常用命令
-
-    C-x-c   # 关闭 Emacs
-    C-z     # 保留 Emacs
-    M-x     # 输入命令
-    C-g     # 取消正在编辑的命令
-    C-s     # 查找字符串
-    C-r     # 光标上、中、下跳转
-    M-<     # 移动到文件头
-    M->     # 移动到文件尾
-    C-x C-j # 可以打开当前文件所在的目录
-复制： M-w 复制选中的区域。
-移除： C-w 移除选中的区域。
-再按 M-y ，就可以得到倒数第二次移除的内容，再按一次 M-y 即可得到倒数第三次移除的内容，以此类推。后面笔者会介绍插件 counsel 辅助这个过程。
+***** 配置快捷键
 **** 移动
 
     C/M-v  # 下 / 上一页
@@ -171,6 +134,11 @@
     M-y            # 将粘贴内容变为上次剪切的给负数可以逆向滚动
     C-//_ 或 C-x u # 撤销 重复按可以撤销多次  按 C-g 会将操作写入历史，可以 redo
 
+**** 特殊
+
+    C-x-c  # 关闭 Emacs
+    C-z    # 保留 Emacs
+
 **** org-mode
 ***** todo
 
@@ -179,54 +147,6 @@
     C-c C-c 改变 checkbox 状态
     C-c, 设置优先级（方括号里的 ABC）
     M-S-RET 插入同级 TODO 标签
-***** 大纲
-
-折叠
-
-
-
-快捷键
-
-功能
-
-
-S-TAB 循环切换整个文档的大纲状态（三种状态：折叠，打开下一级，打开全部） 
-TAB 循环切换光标所在大纲的状态 
-
-大纲间移动
-
-
-
-快捷键
-
-功能
-
-
-C-c C-n/p 下/上一标题 
-C-c C-f/b 下/上一标题（仅限同级标题） 
-C-c C-u 跳到上一级标题 
-C-c C-j 切换到大纲浏览状态 
-
-基于大纲的编辑
-
-
-
-快捷键
-
-功能
-
-
-M-RET 插入一个同级标题 
-M-S-RET 插入一个同级TODO 标题 
-M-LEFT/RIGHT 将当前标题升/降级 
-M-S-LEFT/RIGHT 将子树升/降级 
-M-S-UP/DOWN 将子树上/下移 
-C-c * 将本行设为标题/正文 
-C-c C-w 将子树或区域移动到另一标题处（跨缓冲区） 
-C-x n s/w 只显示当前子树/返回 
-C-c C-x b 在新缓冲区显示当前分支（类似C-x n s) 
-C-c / 只列出包含搜索结果的大纲，并高亮，支持多种搜索方式 
-C-c C-c 取消高亮 
 
 ***** Tags
 
@@ -243,20 +163,9 @@ C-c C-c 取消高亮
     C-c C-_   # 跳转到下级目录
     C-c C-p   # 移动到上一个标题
     C-c C-n   # 移动到下一个标题
-    C-c C-u   # 移动到
-***** 列表
 
-    TAB	折叠列表项
-    M-RET	插入项
-    M-S-RET	插入带复选框的项
-    M-S-UP/DOWN	移动列表项
-    M-LEFT/RIGHT	升 / 降级列表项，不包括子项
-    M-S-LEFT/RIGTH	升 / 降级列表项，包括子项
-    C-c C-c	改变复选框状态
-    C-c -	更换列表标记（循环切换）
-
-***** org-roam
-***** 链接操作
+********* org-roam
+********* 链接操作
 
     C-c l          # 保存至 buffer 中，以便后续使用。但是在我的版本中提示没有这个快捷键
     C-c C-l        # 光标处无连接时表示插入链接，要求输入链接内容，光标处有链接时表示修改链接
@@ -264,8 +173,13 @@ C-c C-c 取消高亮
     C-c %	buffer   # 中记忆一个位置
     C-c &	从 C-c % # 的记录中，逐一回溯
 
-***** elisp语言
+********* elisp语言
 *** vim
+**** 常用命令
+
+    set nu  # 打开行号显示
+    set rnu # 打开相对行号显示
+
 **** 使用技巧
 
     xp    # 交换两个字符位置
@@ -277,11 +191,6 @@ C-c C-c 取消高亮
     C-u   # 插入模式中从光标位置删除到行首
     3 C-r # 重做 3 次
     3 u   # 撤销 3 次
-
-**** 常用命令
-
-    set nu  # 打开行号显示
-    set rnu # 打开相对行号显示
 
 **** 插入模式
 
@@ -357,15 +266,16 @@ C-c C-c 取消高亮
     ,   # 配合 f 和 t 使用，反方向重复一次
     3fx # 移动到第 3 个 x 字符
 
-**** 跳转
+**** 代码块跳转
 
     ``        # 来回跳转
+    '.        # 跳到最后修改的那一行 （超级有用）
     `.        # 不仅跳到最后修改的那一行，还要定位到修改点
-    g; 或、`. # 不仅跳到最后修改的那一行，还要定位到修改点
     `         # 跳转到某标签的光标位置
     '         # 跳转到某标签的行首
     ma        # 在当前光标位置设置位置 a 标记（可使用范围'a-za-z')
     `a        # 跳转到 a 标记
+    g; 或、`. # 不仅跳到最后修改的那一行，还要定位到修改点
     C-o       # 跳回上一次的 jump
     C-i       # 跳回下一次的 jump
     C-]       # 跟着 link/tag 转入 (follow link/tag)
@@ -507,7 +417,6 @@ C-c C-c 取消高亮
     da<        删除左右尖括号及之间的内容 (delete a <>)
     di"        删除引号之间的内容 (delete inner "")
     da"        删除左右引号及之间的内容 (delete a "")
-    daw        删除一个单词 (delete a word)
 
 **** 更改文本
 
@@ -711,6 +620,7 @@ C-c C-c 取消高亮
 ** 终端
 *** oh-my-zsh
 *** Tmux
+** shell
 ** git
 *** windows 安装
 **** 安装 TortoiseGit
@@ -809,7 +719,7 @@ C-c C-c 取消高亮
     git stash pop                                恢复的同时把 stash 内容也删了
 The end
 *** git 流程
-** shell
 
 
+;; the end
 
